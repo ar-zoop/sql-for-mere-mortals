@@ -2,7 +2,7 @@
 
 ```
 create database testDB;
-
+use testDB;
 create table Persons
  (
   PersonID int,
@@ -14,13 +14,14 @@ create table Persons
 );
 
 create table Orders(
-    OrderID int NOT NULL,
-    OrderNumber int NOT NULL,
-    PersonID int,
-    CustomerID int(11)
+   OrderID	int(11) Primary Key,
+   CustomerID	int(11)		,
+   EmployeeID	int(11)		,	
+   OrderDate	date		,	
+   ShipperID int(11)
 );
 
-create table customers
+create table Customers
 (
     CustomerID	int(11) auto_increment primary key,
     CustomerName varchar(255),
@@ -35,15 +36,9 @@ create table customers
 2. Apply the constraints like Primary Key, Foreign key, NOT NULL to the tables
    
 ```
-Alter table Persons
-    Modify Age int NOT NULL,
-    Add primary key(ID),
-    Add foreign key (PersonID)
-    References Persons(PersonID);
-
-Alter table Customers
+Alter table Orders
     Add foreign key (CustomerID)
-    References Orders (CustomerID);
+    References Customers (CustomerID);
 ```
 
 3. Write a SQL statement for implementing ALTER,UPDATE, INSERTION and DELETE.
@@ -57,14 +52,14 @@ drop column Birthday;
 
 We created the table Customers in Ques 1. To update its data we must fill it with data first.
 
-Insert into Customers (CustomerID, CustomerName,	ContactName,	Address,	City,	PostalCode,	Country){
+Insert into Customers (CustomerID, CustomerName,	ContactName,	Address,	City,	PostalCode,	Country)
 values 
     (1, "Alfreds Futterkiste",	"Maria Anders"	,"Obere Str. 57"	,"Berlin"	,"12209", "Germany"),
-    (2, "Ana Trujillo Emparedados y helados",	"Ana Trujillo",	"Avda. de la Constitución" ,"2222"	,"México D.F."	,"05021"	,"Mexico"),
+    (2, "Ana Trujillo Emparedados y helados",	"Ana Trujillo",	"Avda. de la Constitución" ,"México D.F."	,"05021"	,"Mexico"),
     (3,	Antonio Moreno, Taquería,	Antonio Moreno	Mataderos, 2312,	México D.F.,	05023,	Mexico),
     (4	,Around the Horn	,Thomas Hardy	,120 Hanover Sq.	,London	,WA1 1DP	,UK),
     (5	,Berglunds snabbköp,	Christina Berglund,	Berguvsvägen 8	,Luleå,	S-958 22,	Sweden)
-};
+;
 
 Update Customers
 set City = 'Oslo'
@@ -74,23 +69,36 @@ Delete from Customers WHERE CustomerName='Alfreds Futterkiste';
 
 ```
 4. Write the queries to implement the joins.
-   
-INNER JOIN
 
+To perform joins, Orders table must have data in it. Lets add data to it.
+```
+Insert into orders(OrderID,	CustomerID	,EmployeeID	,OrderDate	,ShipperID)
+values
+   (10248	,2	,5,	1996-07-04	,3),
+   (10249,	3,	6	,1996-07-05	,1),
+   (10250,	4,	4	,1996-07-08,	2),
+   (10251	,5	,3	,1996-07-08,	1),
+   (10252	,	2,4,	1996-07-09,	2),
+   (10253	,3	,3	,1996-07-10	,2),
+   (10254	,4	,5	,1996-07-11	,2),
+   (10255,	5	,9	,1996-07-12	,3);
+
+```
+INNER JOIN
 ```
 select  Orders.OrderID, Orders.CustomerID, Customers.CustomerName
 from Orders
 Inner join Customers
 on Orders.CustomerID = Customers.CustomerID;        
 ```
-
+## Make changes in the table for this
 LEFT JOIN
 ```
 Select Customers.CustomerID, Orders.OrderID, Orders.EmployeeID
 from Customers
 Left join Orders on Customers.CustomerID=Orders.CustomerID;
 ```
-
+## Make change sin the table for this
 RIGHT JOIN
 ```
 Select Customers.CustomerID, Orders.OrderID, Orders.EmployeeID
@@ -100,6 +108,8 @@ Right join Orders on Customers.CustomerID=Orders.CustomerID;
 
 5. Write the query for implementing the following functions: MAX (), MIN (), AVG () 
 and COUNT ().
+
+I need to create another table `OrderDetails` to do get the number of orders per customer.
 
 count()
 ```
