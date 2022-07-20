@@ -58,7 +58,10 @@ values
     (2, "Ana Trujillo Emparedados y helados",	"Ana Trujillo",	"Avda. de la Constitución" ,"México D.F."	,"05021"	,"Mexico"),
     (3,	Antonio Moreno, Taquería,	Antonio Moreno	Mataderos, 2312,	México D.F.,	05023,	Mexico),
     (4	,Around the Horn	,Thomas Hardy	,120 Hanover Sq.	,London	,WA1 1DP	,UK),
-    (5	,Berglunds snabbköp,	Christina Berglund,	Berguvsvägen 8	,Luleå,	S-958 22,	Sweden)
+    (5	,Berglunds snabbköp,	Christina Berglund,	Berguvsvägen 8	,Luleå,	S-958 22,	Sweden),
+   (6, "Alfreds Futterkiste",	"Maria Anders"	,"Obere Str. 57"	,"Berlin"	,"12209", "Germany"),
+    (7, "Ana Trujillo Emparedados y helados",	"Ana Trujillo",	"Avda. de la Constitución" ,"México D.F."	,"05021"	,"Mexico"),
+    (8,	"Antonio Moreno", "Taquería",	"Antonio Moreno	Mataderos", 	"México D.F.","05023",	"Mexico")
 ;
 
 Update Customers
@@ -91,14 +94,13 @@ from Orders
 Inner join Customers
 on Orders.CustomerID = Customers.CustomerID;        
 ```
-## Make changes in the table for this
+
 LEFT JOIN
 ```
 Select Customers.CustomerID, Orders.OrderID, Orders.EmployeeID
 from Customers
 Left join Orders on Customers.CustomerID=Orders.CustomerID;
 ```
-## Make change sin the table for this
 RIGHT JOIN
 ```
 Select Customers.CustomerID, Orders.OrderID, Orders.EmployeeID
@@ -110,7 +112,20 @@ Right join Orders on Customers.CustomerID=Orders.CustomerID;
 and COUNT ().
 
 I need to create another table `OrderDetails` to do get the number of orders per customer.
+Create table OrderDetails(
+    OrderDetailID	int(11) PRIMARY KEY,
+    OrderID	int(11),
+    ProductID	int(11)	,
+    Quantity	int(11)	
+);
 
+Insert into OrderDetails
+values 
+    (1	,10248,	11,	12),
+    (2	,10248,	42,	10),
+    (3,	10248,	72,	5),
+    (4,	10249,	14,	9),
+    (5,	10249,	51,	40);
 count()
 ```
 SELECT count(OrderDetailID) as NoOfOrder , Orders.CustomerID
@@ -136,7 +151,7 @@ select min(NoOfOrders) as MinOrders ,CustomerID from transactions;
 ```
 avg()
 ```
-SELECT avg(Price) as AvgPrice FROM Products;
+select avg(NoOfOrders) as AvgOrders ,CustomerID from transactions;
 ```
 
 6. Write the query to implement the concept of Integrity constrains.
@@ -180,7 +195,10 @@ INNER JOIN Orders
 ON Orders.OrderID=OrderDetails.OrderID
 group by Orders.OrderID;
 ```
+
+   
+<!-- 9.  Perform the following operation for demonstrating the insertion , updation and deletion. -->
+
 8. Perform the queries for triggers.
-9.  Perform the following operation for demonstrating the insertion , updation and deletion.
 10.Using the referential integrity constraints.
 11.Write the query for creating the users and their role.
